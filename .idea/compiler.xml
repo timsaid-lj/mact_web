@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="javamg" />
+        <module name="mact_web" />
+        <module name="smart_javamg" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="javamg" target="1.6" />
+      <module name="mact_web" target="1.6" />
+      <module name="smart_javamg" target="1.6" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

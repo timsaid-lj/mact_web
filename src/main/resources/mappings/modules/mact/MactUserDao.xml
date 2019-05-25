@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.javamg.modules.mact.dao.MactUserDao">
+    
+	<sql id="mactUserColumns">
+		a.id AS "id",
+		a.user_name AS "userName",
+		a.user_sex AS "userSex",
+		a.birthday AS "birthday",
+		a.education AS "education",
+		a.login_time AS "loginTime",
+		a.record_time AS "recordTime",
+		a.file_name AS "fileName",
+		a.file_path AS "filePath",
+		a.status AS "status",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="mactUserJoins">
+	</sql>
+    
+	<select id="get" resultType="MactUser">
+		SELECT 
+			<include refid="mactUserColumns"/>
+		FROM mact_user a
+		<include refid="mactUserJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="MactUser">
+		SELECT 
+			<include refid="mactUserColumns"/>
+		FROM mact_user a
+		<include refid="mactUserJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="id != null and id != ''">
+				AND a.id = #{id}
+			</if>
+			<if test="userName != null and userName != ''">
+				AND a.user_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{userName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{userName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{userName},'%')</if>
+			</if>
+			<if test="userSex != null and userSex != ''">
+				AND a.user_sex = #{userSex}
+			</if>
+			<if test="beginBirthday != null and endBirthday != null and beginBirthday != '' and endBirthday != ''">
+				AND a.birthday BETWEEN #{beginBirthday} AND #{endBirthday}
+			</if>
+			<if test="education != null and education != ''">
+				AND a.education LIKE 
+					<if test="dbName == 'oracle'">'%'||#{education}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{education}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{education},'%')</if>
+			</if>
+			<if test="beginLoginTime != null and endLoginTime != null and beginLoginTime != '' and endLoginTime != ''">
+				AND a.login_time BETWEEN #{beginLoginTime} AND #{endLoginTime}
+			</if>
+			<if test="beginRecordTime != null and endRecordTime != null and beginRecordTime != '' and endRecordTime != ''">
+				AND a.record_time BETWEEN #{beginRecordTime} AND #{endRecordTime}
+			</if>
+			<if test="fileName != null and fileName != ''">
+				AND a.file_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{fileName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{fileName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{fileName},'%')</if>
+			</if>
+			<if test="filePath != null and filePath != ''">
+				AND a.file_path LIKE 
+					<if test="dbName == 'oracle'">'%'||#{filePath}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{filePath}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{filePath},'%')</if>
+			</if>
+			<if test="status != null and status != ''">
+				AND a.status = #{status}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="MactUser">
+		SELECT 
+			<include refid="mactUserColumns"/>
+		FROM mact_user a
+		<include refid="mactUserJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO mact_user(
+			id,
+			user_name,
+			user_sex,
+			birthday,
+			education,
+			login_time,
+			record_time,
+			file_name,
+			file_path,
+			status,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{userName},
+			#{userSex},
+			#{birthday},
+			#{education},
+			#{loginTime},
+			#{recordTime},
+			#{fileName},
+			#{filePath},
+			#{status},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE mact_user SET 	
+			user_name = #{userName},
+			user_sex = #{userSex},
+			birthday = #{birthday},
+			education = #{education},
+			login_time = #{loginTime},
+			record_time = #{recordTime},
+			file_name = #{fileName},
+			file_path = #{filePath},
+			status = #{status},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+
+	<update id="updateFile">
+		UPDATE mact_user a
+		   SET a.record_time = #{recordTime},
+		   	   a.file_name = #{fileName},
+		   	   a.file_path = #{filePath},
+			   a.update_by = #{updateBy.id},
+			   a.update_date = #{updateDate}
+		WHERE a.id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE mact_user SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>
