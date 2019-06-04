@@ -4,6 +4,9 @@
 package com.thinkgem.javamg.modules.mact.entity;
 
 import org.hibernate.validator.constraints.Length;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -82,8 +85,13 @@ public class MactUser extends DataEntity<MactUser> {
 		return loginTime;
 	}
 
-	public void setLoginTime(String loginTime) {
-		this.loginTime = loginTime;
+	public void setLoginTime(String loginTime){
+		SimpleDateFormat sdf =new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		try {
+			this.loginTime = sdf.format(sdf.parse(loginTime));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -92,7 +100,12 @@ public class MactUser extends DataEntity<MactUser> {
 	}
 
 	public void setRecordTime(String recordTime) {
-		this.recordTime = recordTime;
+		SimpleDateFormat sdf =new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		try {
+			this.recordTime = sdf.format(sdf.parse(recordTime));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@Length(min=0, max=255, message="文件名长度必须介于 0 和 255 之间")

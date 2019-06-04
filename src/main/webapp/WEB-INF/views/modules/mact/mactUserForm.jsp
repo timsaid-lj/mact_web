@@ -49,8 +49,8 @@
 			<label class="control-label">出生日期：</label>
 			<div class="controls">
 				<input name="birthday" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
-					value="<fmt:formatDate value="${mactUser.birthday}" pattern="yyyy-MM-dd HH:mm:ss"/>"
-					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
+					value="<fmt:formatDate value="${mactUser.birthday}" pattern="yyyy-MM-dd"/>"
+					onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"/>
 			</div>
 		</div>
 		<div class="control-group">
@@ -65,17 +65,19 @@
 		<div class="control-group">
 			<label class="control-label">登录时间：</label>
 			<div class="controls">
-				<input name="loginTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
+				<%--<input name="loginTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
 					value="<fmt:formatDate value="${mactUser.loginTime}" pattern="yyyy-MM-dd HH:mm:ss"/>"
-					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
+					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>--%>
+					<form:input path="loginTime" htmlEscape="false" maxlength="255" class="input-xlarge "/>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">录音时间：</label>
 			<div class="controls">
-				<input name="recordTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
+				<%--<input name="recordTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
 					value="<fmt:formatDate value="${mactUser.recordTime}" pattern="yyyy-MM-dd HH:mm:ss"/>"
-					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
+					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>--%>
+					<form:input path="recordTime" htmlEscape="false" maxlength="255" class="input-xlarge "/>
 			</div>
 		</div>
 		<div class="control-group">
@@ -87,19 +89,19 @@
 		<div class="control-group">
 			<label class="control-label">录音文件地址：</label>
 			<div class="controls">
-				<form:input path="filePath" htmlEscape="false" maxlength="255" class="input-xlarge "/>
+				<form:textarea path="filePath" htmlEscape="false" maxlength="255" class="input-xlarge "/>
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">状态（1有效、0无效）：</label>
+			<label class="control-label">状态：</label>
 			<div class="controls">
-				<form:radiobuttons path="status" items="${fns:getDictList('')}" itemLabel="label" itemValue="value" htmlEscape="false" class=""/>
+				<form:radiobuttons path="status" items="${fns:getDictList('mact_status')}" itemLabel="label" itemValue="value" htmlEscape="false" class=""/>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">备注：</label>
 			<div class="controls">
-				<form:textarea path="remarks" htmlEscape="false" rows="4" maxlength="255" class="input-xxlarge "/>
+				<form:textarea path="remarks" htmlEscape="false"  maxlength="255" class="input-xxlarge "/>
 			</div>
 		</div>
 		<div class="form-actions">

@@ -26,6 +26,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -59,7 +60,7 @@ public class MactMobileController extends BaseController {
 
 
     @RequestMapping(value = "save")
-    public  String save(MactUser mactUser, Model model, RedirectAttributes redirectAttributes,HttpServletRequest request, HttpServletResponse response) {
+    public  String save(MactUser mactUser, Model model, RedirectAttributes redirectAttributes,HttpServletRequest request, HttpServletResponse response){
        /* if (!beanValidator(model, mactUser)){
             return form(mactUser, model);
         }*/
@@ -98,6 +99,7 @@ public class MactMobileController extends BaseController {
         MultipartFile mf=null;
         String savePath=null;
         String fileName = null;
+        MactUser mactUser=mactUserService.get(id);
         try {
             String ctxPath = "C://qycache";
             String bizPath = "mactUser";
@@ -110,7 +112,7 @@ public class MactMobileController extends BaseController {
             MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
             mf = multipartRequest.getFile("file");// 获取上传文件对象
             String orgName = mf.getOriginalFilename();// 获取文件名
-            fileName = orgName.substring(0, orgName.lastIndexOf(".")) + "_" + System.currentTimeMillis() + orgName.substring(orgName.indexOf("."));
+            fileName = mactUser.getUserName()+"_"+orgName.substring(0, orgName.lastIndexOf(".")) + orgName.substring(orgName.indexOf("."));
             savePath = file.getPath() + File.separator + fileName;
             File savefile = new File(savePath);
             FileCopyUtils.copy(mf.getBytes(), savefile);
@@ -125,7 +127,6 @@ public class MactMobileController extends BaseController {
 
         //将录音文件数据保存至mactUser数据表中
 
-        MactUser mactUser=mactUserService.get(id);
         mactUser.setFilePath(savePath);
         SimpleDateFormat currentTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
         mactUser.setRecordTime(currentTime.format(new Date()));

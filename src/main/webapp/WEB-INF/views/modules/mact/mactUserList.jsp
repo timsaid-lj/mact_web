@@ -19,7 +19,6 @@
 <body>
 	<ul class="nav nav-tabs">
 		<li class="active"><a href="${ctx}/mact/mactUser/">语料管理列表</a></li>
-		<shiro:hasPermission name="mact:mactUser:edit"><li><a href="${ctx}/mact/mactUser/form">mact用户添加</a></li></shiro:hasPermission>
 	</ul>
 	<form:form id="searchForm" modelAttribute="mactUser" action="${ctx}/mact/mactUser/" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
@@ -28,9 +27,15 @@
 			<li><label>姓名：</label>
 				<form:input path="userName" htmlEscape="false" maxlength="255" class="input-medium"/>
 			</li>
-			<li><label>性别：</label>
-				<form:radiobuttons path="userSex" items="${fns:getDictList('sex')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+			<li><label>登录时间：</label>
+				<input name="beginLoginTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
+					   value="<fmt:formatDate value="${mactUser.beginLoginTime}" pattern="yyyy-MM-dd HH:mm:ss"/>"
+					   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/> -
+				<input name="endLoginTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
+					   value="<fmt:formatDate value="${mactUser.endLoginTime}" pattern="yyyy-MM-dd HH:mm:ss"/>"
+					   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
 			</li>
+
 			<li><label>出生日期：</label>
 				<input name="beginBirthday" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
 					value="<fmt:formatDate value="${mactUser.beginBirthday}" pattern="yyyy-MM-dd HH:mm:ss"/>"
@@ -45,13 +50,8 @@
 					<form:options items="${fns:getDictList('education')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
 			</li>
-			<li><label>登录时间：</label>
-				<input name="beginLoginTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
-					value="<fmt:formatDate value="${mactUser.beginLoginTime}" pattern="yyyy-MM-dd HH:mm:ss"/>"
-					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/> - 
-				<input name="endLoginTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
-					value="<fmt:formatDate value="${mactUser.endLoginTime}" pattern="yyyy-MM-dd HH:mm:ss"/>"
-					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
+			<li><label>性别：</label>
+				<form:radiobuttons path="userSex" items="${fns:getDictList('sex')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 			</li>
 			<li><label>录音时间：</label>
 				<input name="beginRecordTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
@@ -102,10 +102,10 @@
 
 				</td>
 				<td>
-					<%--<fmt:formatDate value="${mactUser.loginTime}" pattern="yyyy-MM-dd HH:mm:ss"/>--%>
+					${mactUser.loginTime}
 				</td>
 				<td>
-					<%--<fmt:formatDate value="${mactUser.recordTime}" pattern="yyyy-MM-dd HH:mm:ss"/>--%>
+					${mactUser.recordTime}
 				</td>
 				<td>
 					<a href="${ctx}/mact/mactUser/downloadFile?id=${mactUser.id}">${mactUser.fileName}</a>
