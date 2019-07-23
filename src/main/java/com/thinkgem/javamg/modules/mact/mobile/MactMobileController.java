@@ -7,8 +7,11 @@ package com.thinkgem.javamg.modules.mact.mobile;
 import com.thinkgem.javamg.common.utils.IdGen;
 import com.thinkgem.javamg.common.web.BaseController;
 import com.thinkgem.javamg.modules.mact.entity.MactUser;
+import com.thinkgem.javamg.modules.mact.entity.phq9.MactPhq9;
 import com.thinkgem.javamg.modules.mact.service.MactUserService;
 
+import com.thinkgem.javamg.modules.mact.service.phq9.MactPhq9Service;
+import com.thinkgem.javamg.modules.mact.service.userphq9.MactUserPhq9Service;
 import com.thinkgem.javamg.modules.sys.service.SystemService;
 
 import org.restlet.resource.Result;
@@ -44,6 +47,8 @@ public class MactMobileController extends BaseController {
     private MactUserService mactUserService;
     @Autowired
     private SystemService systemService;
+    @Autowired
+    private MactPhq9Service mactPhq9Service;
 
     private ThreadLocalThread threadLocalThread;
 
@@ -61,25 +66,17 @@ public class MactMobileController extends BaseController {
 
     @RequestMapping(value = "save")
     public  String save(MactUser mactUser, Model model, RedirectAttributes redirectAttributes,HttpServletRequest request, HttpServletResponse response){
-       /* if (!beanValidator(model, mactUser)){
-            return form(mactUser, model);
-        }*/
-
-      /*  // 验证表是否已经存在
-        if (StringUtils.isBlank(user.getId()) && !genTableService.checkTableName(genTable.getName())){
-            addMessage(model, "保存失败！" + genTable.getName() + " 表已经存在！");
-            genTable.setName("");
-            return form(genTable, model);
-        }
-        genTableService.save(genTable);
-        */
         //将注册信息保存至mactUser表中
         SimpleDateFormat currentTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
         mactUser.setLoginTime(currentTime.format(new Date()));
         mactUser.setStatus("1");
         mactUserService.save(mactUser);
         addMessage(redirectAttributes, "保存业务表'" + mactUser.getUserName() + "'成功");
-        return "modules/sys/mactRadio";
+        MactPhq9 mactPhq9=new MactPhq9();
+        mactPhq9.setSort("1");
+        model.addAttribute("phq9One",mactPhq9Service.findPhq9One(mactPhq9));
+        return "modules/sys/phqCheck";
+        //return "modules/sys/mactRadio";
     }
 
     @RequestMapping(value = "userCommit")
@@ -124,9 +121,7 @@ public class MactMobileController extends BaseController {
             e.printStackTrace();
         }
 
-
         //将录音文件数据保存至mactUser数据表中
-
         mactUser.setFilePath(savePath);
         SimpleDateFormat currentTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
         mactUser.setRecordTime(currentTime.format(new Date()));

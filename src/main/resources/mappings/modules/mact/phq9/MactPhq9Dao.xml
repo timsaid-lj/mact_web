@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.javamg.modules.mact.dao.phq9.MactPhq9Dao">
+    
+	<sql id="mactPhq9Columns">
+		a.id AS "id",
+		a.project AS "project",
+		a.sort AS "sort",
+		a.none AS "none",
+		a.days AS "days",
+		a.usual AS "usual",
+		a.often AS "often",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="mactPhq9Joins">
+	</sql>
+    
+	<select id="get" resultType="MactPhq9">
+		SELECT 
+			<include refid="mactPhq9Columns"/>
+		FROM mact_phq9 a
+		<include refid="mactPhq9Joins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="MactPhq9">
+		SELECT 
+			<include refid="mactPhq9Columns"/>
+		FROM mact_phq9 a
+		<include refid="mactPhq9Joins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="project != null and project != ''">
+				AND a.project LIKE 
+					<if test="dbName == 'oracle'">'%'||#{project}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{project}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{project},'%')</if>
+			</if>
+			<if test="none != null and none != ''">
+				AND a.none = #{none}
+			</if>
+			<if test="days != null and days != ''">
+				AND a.days = #{days}
+			</if>
+			<if test="usual != null and usual != ''">
+				AND a.usual = #{usual}
+			</if>
+			<if test="often != null and often != ''">
+				AND a.often = #{often}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="MactPhq9">
+		SELECT 
+			<include refid="mactPhq9Columns"/>
+		FROM mact_phq9 a
+		<include refid="mactPhq9Joins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO mact_phq9(
+			id,
+			project,
+			sort,
+			none,
+			days,
+			usual,
+			often,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{project},
+			#{sort},
+			#{none},
+			#{days},
+			#{usual},
+			#{often},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE mact_phq9 SET 	
+			project = #{project},
+			sort = #{sort},
+			none = #{none},
+			days = #{days},
+			usual = #{usual},
+			often = #{often},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE mact_phq9 SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+
+	<select id="findPhq9One" resultType="MactPhq9">
+		select * from mact_phq9
+		where del_flag = '0'
+		and sort= #{sort}
+	</select>
+
+</mapper>

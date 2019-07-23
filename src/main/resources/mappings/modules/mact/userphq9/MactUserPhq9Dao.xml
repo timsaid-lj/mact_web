@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.javamg.modules.mact.dao.userphq9.MactUserPhq9Dao">
+    
+	<sql id="mactUserPhq9Columns">
+		a.id AS "id",
+		a.phqid AS "phqid",
+		a.userid AS "userid",
+		a.scores AS "scores",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="mactUserPhq9Joins">
+	</sql>
+    
+	<select id="get" resultType="MactUserPhq9">
+		SELECT 
+			<include refid="mactUserPhq9Columns"/>
+		FROM mact_user_phq9 a
+		<include refid="mactUserPhq9Joins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="MactUserPhq9">
+		SELECT 
+			<include refid="mactUserPhq9Columns"/>
+		FROM mact_user_phq9 a
+		<include refid="mactUserPhq9Joins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="phqid != null and phqid != ''">
+				AND a.phqid = #{phqid}
+			</if>
+			<if test="userid != null and userid != ''">
+				AND a.userid = #{userid}
+			</if>
+			<if test="scores != null and scores != ''">
+				AND a.scores = #{scores}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="MactUserPhq9">
+		SELECT 
+			<include refid="mactUserPhq9Columns"/>
+		FROM mact_user_phq9 a
+		<include refid="mactUserPhq9Joins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO mact_user_phq9(
+			id,
+			phqid,
+			userid,
+			scores,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{phqid},
+			#{userid},
+			#{scores},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE mact_user_phq9 SET 	
+			phqid = #{phqid},
+			userid = #{userid},
+			scores = #{scores},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE mact_user_phq9 SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

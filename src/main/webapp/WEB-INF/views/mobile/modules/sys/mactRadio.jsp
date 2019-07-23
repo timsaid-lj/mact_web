@@ -16,6 +16,7 @@
 <div id="aside_container" >
 	<%--当前页面用户id传递--%>
 	<input type="hidden" id = "CurrentId" value="${mactUser.id}" hidden="hidden">
+
 	<%-----------------------------分割线-----------------------------------%>
 	<div class="decoration"></div>
 	<div class="container">
