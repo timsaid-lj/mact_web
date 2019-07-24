@@ -50,4 +50,10 @@ public class MactUserPhq9Service extends CrudService<MactUserPhq9Dao, MactUserPh
     public void savePhq9(MactUserPhq9 mactUserPhq9) {
 		mactUserPhq9Dao.savePhq9();
     }
+
+	public Page<MactUserPhq9> findSumScores(Page<MactUserPhq9> page, MactUserPhq9 mactUserPhq9) {
+		mactUserPhq9.setPage(page);
+		page.setList(mactUserPhq9Dao.findSumScores(mactUserPhq9));
+		return page;
+	}
 }

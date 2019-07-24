@@ -18,6 +18,9 @@ public class MactUserPhq9 extends DataEntity<MactUserPhq9> {
 	private String phqid;		// phq9id
 	private String userid;		// ?&ucirc;?id
 	private String scores;		// ??ֵ
+	private String userName;
+	private String sumScores;
+	private String project;
 	
 	public MactUserPhq9() {
 		super();
@@ -53,5 +56,28 @@ public class MactUserPhq9 extends DataEntity<MactUserPhq9> {
 	public void setScores(String scores) {
 		this.scores = scores;
 	}
-	
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public String getSumScores() {
+		return sumScores;
+	}
+
+	public void setSumScores(String sumScores) {
+		this.sumScores = sumScores;
+	}
+
+	public String getProject() {
+		return project;
+	}
+
+	public void setProject(String project) {
+		this.project = project;
+	}
 }

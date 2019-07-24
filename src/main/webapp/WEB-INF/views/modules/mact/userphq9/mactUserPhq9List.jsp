@@ -42,32 +42,30 @@
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
 		<thead>
 			<tr>
-				<th>项目</th>
 				<th>用户</th>
+				<th>项目</th>
 				<th>分值ֵ</th>
-				<th>创建者</th>
 				<shiro:hasPermission name="mact:userphq9:mactUserPhq9:edit"><th>操作</th></shiro:hasPermission>
 			</tr>
 		</thead>
 		<tbody>
 		<c:forEach items="${page.list}" var="mactUserPhq9">
 			<tr>
-				<td><a href="${ctx}/mact/userphq9/mactUserPhq9/form?id=${mactUserPhq9.id}">
-					${mactUserPhq9.phqid}
-				</a></td>
 				<td>
-					${mactUserPhq9.userid}
+					${mactUserPhq9.userName}
 				</td>
 				<td>
-					${mactUserPhq9.scores}
+					Phq9
 				</td>
+
 				<td>
-					${mactUserPhq9.createBy.id}
+					${mactUserPhq9.sumScores}
 				</td>
-				<shiro:hasPermission name="mact:userphq9:mactUserPhq9:edit"><td>
-    				<a href="${ctx}/mact/userphq9/mactUserPhq9/form?id=${mactUserPhq9.id}">修改</a>
-					<a href="${ctx}/mact/userphq9/mactUserPhq9/delete?id=${mactUserPhq9.id}" onclick="return confirmx('确认要删除该userPhq9吗？', this.href)">删除</a>
-				</td></shiro:hasPermission>
+
+				<td>
+					<a href="${ctx}/mact/userphq9/mactUserPhq9/userDetails?userid=${mactUserPhq9.userid}">详情</a>
+				</td>
+
 			</tr>
 		</c:forEach>
 		</tbody>

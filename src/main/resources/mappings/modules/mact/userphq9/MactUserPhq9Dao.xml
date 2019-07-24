@@ -12,10 +12,14 @@
 		a.update_by AS "updateBy.id",
 		a.update_date AS "updateDate",
 		a.remarks AS "remarks",
-		a.del_flag AS "delFlag"
+		a.del_flag AS "delFlag",
+		mp.project AS "project",
+		mu.user_name as userName
 	</sql>
 	
 	<sql id="mactUserPhq9Joins">
+		LEFT JOIN mact_phq9 mp ON mp.id = a.phqid
+		LEFT JOIN mact_user mu ON mu.id = a.userid
 	</sql>
     
 	<select id="get" resultType="MactUserPhq9">
@@ -113,5 +117,27 @@
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
 	</update>
+
+	<select id="findSumScores" resultType="MactUserPhq9">
+		SELECT
+			mu.user_name as userName,
+			a.userid ,
+			sum(scores) as sumScores
+		FROM
+			mact_user_phq9 a
+		LEFT JOIN mact_user mu ON mu.id = a.userid
+		LEFT JOIN mact_phq9 mp ON mp.id = a.phqid
+			WHERE
+		a.del_flag = '0'
+		GROUP BY a.userid,mu.user_name
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+		<!--	<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>-->
+		</choose>
+	</select>
 	
 </mapper>

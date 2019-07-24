@@ -38,8 +38,8 @@
 								<input type="hidden" id = "phq9Id" value="${phq9One.id}" hidden="hidden">
 								<input type="hidden" id = "sort" value="${phq9One.sort}" hidden="hidden">
 
+
 								<p id="phq9Change">${phq9One.sort}.${phq9One.project}</p>
-								request:${requestScope.message}
 
 
 								<%--<div class="lowin-group">--%>
@@ -79,28 +79,30 @@
 <script src="${ctxStatic}/layer-mobile/layer.js"></script>
 
 <script type="text/javascript">
-
-	$('#nextBtn').click(function () {
+    $('#nextBtn').click(function () {
         var sort =  parseInt($("#sort").val()) + parseInt(1);
+        //var sort =  20;
         var CurrentId = $("#CurrentId").val();
         var phq9Id = $("#phq9Id").val();
         var scores= $('input:radio[name="scores"]:checked').val();
         var url="${ctx}/mact/userphq9/mactUserPhq9/savePhq9?sort="+sort+"&CurrentId="+CurrentId+"&phq9Id="+phq9Id+"&scores="+scores;
-        alert(scores);
-        alert(sort);
-        alert(CurrentId);
-        alert(phq9Id);
         $.ajax({
             url:url,
             type:"GET",
             dataType:"json",
             success:function(result){
+				if(result.data == "" || result.data == null){
+				    window.location.href="${ctx}/mact/mobile/mactRadio?id="+CurrentId;
+				}else{
+                    $("#phq9Id").val(result.data.id);
+                    $("#sort").val(result.data.sort);
+                    var phq9ChangeValue= result.data.sort+"."+result.data.project;
+                    document.getElementById("phq9Change").innerHTML=phq9ChangeValue;
+                    $('input:radio[name=scores]').attr('checked',false);
+				}
             }
         });
     })
-
-
-
 </script>
 
 

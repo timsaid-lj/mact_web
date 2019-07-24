@@ -76,8 +76,16 @@ public class MactMobileController extends BaseController {
         mactPhq9.setSort("1");
         model.addAttribute("phq9One",mactPhq9Service.findPhq9One(mactPhq9));
         return "modules/sys/phqCheck";
-        //return "modules/sys/mactRadio";
     }
+
+    @RequestMapping(value = "mactRadio")
+    public  String mactRadio(String id,Model model){
+        model.addAttribute("mactUserId",id);
+        return "modules/sys/mactRadio";
+    }
+
+
+
 
     @RequestMapping(value = "userCommit")
     public void userCommit(String CurrentId,HttpServletRequest request, HttpServletResponse response){
