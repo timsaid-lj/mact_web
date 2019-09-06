@@ -4,7 +4,7 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 	<link rel="stylesheet" href="${ctxStatic}/jingle/css/auth.css">
 	<link href="${ctxStatic}/mobiscroll/css/mobiscroll.frame.css" rel="stylesheet" type="text/css" />
 	<link href="${ctxStatic}/mobiscroll/css/mobiscroll.frame.android-holo.css" rel="stylesheet" type="text/css" />
@@ -26,25 +26,27 @@
 					<div class="lowin-box lowin-login">
 						<div class="lowin-box-inner">
 							<form id="loginForm">
-								<div class="container">
+								<%--<div class="container">
 
 									<div class="one-half-responsive last-column">
 										<h3 class="center-if-mobile no-bottom">PHQ-9量表</h3>
 
 									</div>
 								</div>
-
+--%>
 								<input type="hidden" id = "CurrentId" value="${mactUser.id}" hidden="hidden">
 								<input type="hidden" id = "phq9Id" value="${phq9One.id}" hidden="hidden">
 								<input type="hidden" id = "sort" value="${phq9One.sort}" hidden="hidden">
 
 
-								<p id="phq9Change">${phq9One.sort}.${phq9One.project}</p>
+								<p id="phq9Change" style="height: 60px; font-size: 16px;font-family: cursive;color: black;">
+									${phq9One.sort}.${phq9One.project}
+								</p>
 
 
 								<%--<div class="lowin-group">--%>
 
-									<div class="lowin-input" >
+									<div class="lowin-input" style="margin-top: 30%; font-size: 14px;font-family: monospace;" >
 										<label>请根据个人情况进行选择：</label>
 										<label><input name="scores" type="radio" value="0" />没有</label>
 										<label><input name="scores" type="radio" value="1" />有几天</label>
@@ -55,7 +57,7 @@
 
 								<div>&nbsp;</div>
 
-								<input id="nextBtn" class="lowin-btn login-btn " style="margin-top: 4%;" type="button" value="下一题"/>
+								<input id="nextBtn" class="lowin-btn login-btn " style="margin-top: 20%;" type="button" value="下一题"/>
 							</form>
 						</div>
 					</div>
