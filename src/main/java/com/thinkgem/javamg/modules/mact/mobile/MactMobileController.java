@@ -57,10 +57,15 @@ public class MactMobileController extends BaseController {
 
     public static ThreadLocal<String> threadLocal = new ThreadLocal<String>();
 
-    @RequestMapping(value = "index")
+    @RequestMapping(value = "modelCheck")
     public String index( HttpServletRequest request, HttpServletResponse response, Model model) {
+        return "modules/sys/modelCheck";
+    }
 
-        return "modules/sys/sysLogin";
+    @RequestMapping(value = "radioJsp")
+    public String sysLogin( HttpServletRequest request, HttpServletResponse response, Model model) {
+
+        return "modules/sys/radioJsp";
     }
 
 
