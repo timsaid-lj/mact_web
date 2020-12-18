@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.javamg.modules.mact.dao.phqordbi.MactPhqordbiDao">
+    
+	<sql id="mactPhqordbiColumns">
+		a.id AS "id",
+		a.phqordbi AS "phqordbi"
+	</sql>
+	
+	<sql id="mactPhqordbiJoins">
+	</sql>
+    
+	<select id="get" resultType="MactPhqordbi">
+		SELECT 
+			<include refid="mactPhqordbiColumns"/>
+		FROM mact_phqordbi a
+		<include refid="mactPhqordbiJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="MactPhqordbi">
+		SELECT 
+			<include refid="mactPhqordbiColumns"/>
+		FROM mact_phqordbi a
+		<include refid="mactPhqordbiJoins"/>
+		<where>
+			
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="MactPhqordbi">
+		SELECT 
+			<include refid="mactPhqordbiColumns"/>
+		FROM mact_phqordbi a
+		<include refid="mactPhqordbiJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO mact_phqordbi(
+			id,
+			phqordbi
+		) VALUES (
+			#{id},
+			#{phqordbi}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE mact_phqordbi SET 	
+			phqordbi = #{phqordbi}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM mact_phqordbi
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

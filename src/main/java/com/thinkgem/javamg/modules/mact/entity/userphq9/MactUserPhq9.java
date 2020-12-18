@@ -21,7 +21,8 @@ public class MactUserPhq9 extends DataEntity<MactUserPhq9> {
 	private String userName;
 	private String sumScores;
 	private String project;
-	
+	private String type;
+
 	public MactUserPhq9() {
 		super();
 	}
@@ -80,4 +81,12 @@ public class MactUserPhq9 extends DataEntity<MactUserPhq9> {
 	public void setProject(String project) {
 		this.project = project;
 	}
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getType() {
+        return type;
+    }
 }

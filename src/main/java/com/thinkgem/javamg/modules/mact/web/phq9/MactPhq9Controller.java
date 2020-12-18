@@ -45,7 +45,7 @@ public class MactPhq9Controller extends BaseController {
 		}
 		return entity;
 	}
-	
+
 	@RequiresPermissions("mact:phq9:mactPhq9:view")
 	@RequestMapping(value = {"list", ""})
 	public String list(MactPhq9 mactPhq9, HttpServletRequest request, HttpServletResponse response, Model model) {

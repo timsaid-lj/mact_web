@@ -104,7 +104,7 @@
 				<span class="help-inline"><font color="red">*</font> “是”代表此账号允许登录，“否”则表示此账号不允许登录</span>
 			</div>
 		</div>
-		<div class="control-group">
+	<%--	<div class="control-group">
 			<label class="control-label">用户类型:</label>
 			<div class="controls">
 				<form:select path="userType" class="input-xlarge">
@@ -112,7 +112,7 @@
 					<form:options items="${fns:getDictList('sys_user_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
 			</div>
-		</div>
+		</div>--%>
 		<div class="control-group">
 			<label class="control-label">用户角色:</label>
 			<div class="controls">

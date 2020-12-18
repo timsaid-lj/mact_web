@@ -106,6 +106,7 @@ public class MactUserPhq9Controller extends BaseController {
 		mactUserPhq9.setPhqid(phq9Id);
 		mactUserPhq9.setUserid(CurrentId);
 		mactUserPhq9.setScores(scores);
+		mactUserPhq9.setType("1");
 		mactUserPhq9Service.save(mactUserPhq9);
 		MactPhq9 mactPhq9 = new MactPhq9();
 		mactPhq9.setSort(sort);

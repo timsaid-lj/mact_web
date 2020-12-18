@@ -54,7 +54,7 @@
 				<th>有几天</th>
 				<th>一半以上</th>
 				<th>天天</th>
-				<th>创建时间</th>
+				<th>更新时间</th>
 				<shiro:hasPermission name="mact:phq9:mactPhq9:edit"><th>操作</th></shiro:hasPermission>
 			</tr>
 		</thead>
@@ -80,7 +80,7 @@
 					${mactPhq9.often}
 				</td>
 				<td>
-					<fmt:formatDate value="${mactPhq9.createDate}" pattern="yyyy-MM-dd"/>
+					<fmt:formatDate value="${mactPhq9.updateDate}" pattern="yyyy-MM-dd"/>
 				</td>
 				<shiro:hasPermission name="mact:phq9:mactPhq9:edit"><td>
     				<a href="${ctx}/mact/phq9/mactPhq9/form?id=${mactPhq9.id}">修改</a>

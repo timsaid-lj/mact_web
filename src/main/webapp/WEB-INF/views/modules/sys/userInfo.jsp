@@ -70,12 +70,12 @@
 				<form:textarea path="remarks" htmlEscape="false" rows="3" maxlength="200" class="input-xlarge"/>
 			</div>
 		</div>
-		<div class="control-group">
+		<%--<div class="control-group">
 			<label class="control-label">用户类型:</label>
 			<div class="controls">
 				<label class="lbl">${fns:getDictLabel(user.userType, 'sys_user_type', '无')}</label>
 			</div>
-		</div>
+		</div>--%>
 		<div class="control-group">
 			<label class="control-label">用户角色:</label>
 			<div class="controls">

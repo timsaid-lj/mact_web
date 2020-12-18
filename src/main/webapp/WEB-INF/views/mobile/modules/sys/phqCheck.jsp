@@ -39,14 +39,14 @@
 								<input type="hidden" id = "sort" value="${phq9One.sort}" hidden="hidden">
 
 
-								<p id="phq9Change" style="height: 60px; font-size: 16px;font-family: cursive;color: black;">
+								<p id="phq9Change" style="height: 60px; font-size: 20px;font-family: cursive;color: black;">
 									${phq9One.sort}.${phq9One.project}
 								</p>
 
 
 								<%--<div class="lowin-group">--%>
 
-									<div class="lowin-input" style="margin-top: 30%; font-size: 14px;font-family: monospace;" >
+									<div class="lowin-input" style="margin-top: 30%; font-size: 16px;font-family: monospace;line-height: 2;" >
 										<label>请根据个人情况进行选择：</label>
 										<label><input name="scores" type="radio" value="0" />没有</label>
 										<label><input name="scores" type="radio" value="1" />有几天</label>

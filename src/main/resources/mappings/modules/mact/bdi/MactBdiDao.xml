@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.javamg.modules.mact.dao.bdi.MactBdiDao">
+    
+	<sql id="mactBdiColumns">
+		a.id AS "id",
+		a.bdigroup AS "bdigroup",
+		a.project AS "project",
+		a.bdivalue AS "bdivalue",
+		a.sort AS "sort",
+		s.name AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="mactBdiJoins">
+		left join sys_user s on s.id = a.create_by
+	</sql>
+    
+	<select id="get" resultType="MactBdi">
+		SELECT 
+			<include refid="mactBdiColumns"/>
+		FROM mact_bdi a
+		<include refid="mactBdiJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="MactBdi">
+		SELECT 
+			<include refid="mactBdiColumns"/>
+		FROM mact_bdi a
+		<include refid="mactBdiJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="bdigroup != null and bdigroup != ''">
+				AND a.bdigroup = #{bdigroup}
+			</if>
+			<if test="project != null and project != ''">
+				AND a.project = #{project}
+			</if>
+			<if test="bdivalue != null and bdivalue != ''">
+				AND a.bdivalue = #{bdivalue}
+			</if>
+			<if test="sort != null and sort != ''">
+				AND a.sort = #{sort}
+			</if>
+			<if test="createBy != null and createBy.id != null and createBy.id != ''">
+				AND a.create_by = #{createBy.id}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.sort DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="MactBdi">
+		SELECT 
+			<include refid="mactBdiColumns"/>
+		FROM mact_bdi a
+		<include refid="mactBdiJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO mact_bdi(
+			id,
+			bdigroup,
+			project,
+			bdivalue,
+			sort,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{bdigroup},
+			#{project},
+			#{bdivalue},
+			#{sort},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE mact_bdi SET 	
+			bdigroup = #{bdigroup},
+			project = #{project},
+			bdivalue = #{bdivalue},
+			sort = #{sort},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE mact_bdi SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

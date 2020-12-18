@@ -22,11 +22,11 @@
 		.box:before,
 		.box:after{
 			content: '';
-			background: linear-gradient( #000dff 0%, #5cc3ff 30%);
+			background: linear-gradient( #000dff 0%, #74beff 10%);
 			height: 150%;
 			width: 100%;
 			border-radius: 0 100% 0 0;
-			opacity: 0;
+			opacity: 20%;
 			position: absolute;
 			left: -50%;
 			top: 100%;
@@ -40,19 +40,19 @@
 		.box:hover:before,
 		.box:hover:after{
 			top: -50%;
-			opacity: 0.9;
+			opacity: 10%;
 			border-radius: 0 35% 0 0;
 		}
 		.box:hover:after{ border-radius: 35% 0 0 0; }
 		.box img{
-			width: 100%;
+			width: 80%;
 			height: auto;
 		}
 		.box .box-content{
 			color: #fff;
 			text-align: center;
 			width: 80%;
-			opacity: 0;
+			opacity: 20%;
 			transform: translateX(-50%) translateY(-50%);
 			position: absolute;
 			top: 50%;
@@ -67,6 +67,7 @@
 			text-transform: uppercase;
 			letter-spacing: 1px;
 			margin: 0 0 7px;
+			background-color: #0b84fe;
 		}
 		.box .post{
 			font-size: 18px;
@@ -106,6 +107,9 @@
 		@media only screen and (max-width:990px){
 			.box { margin: 0 0 30px; }
 		}
+
+
+
 	</style>
 
 </head>
@@ -117,25 +121,24 @@
 				<div class="box">
 					<img src="${ctxStatic}/images/img-1.png"/>
 					<div class="box-content">
+						<a href="${ctx}/mact/mobile/radioJsp">
 						<h3 class="title">语音录音</h3>
+						</a>
 						<span class="post">Voice recording</span>
-						<ul class="icon">
-							<li><a href="${ctx}/mact/mobile/radioJsp"><i class="fa fa-search"></i></a></li>
-						</ul>
 					</div>
 				</div>
 			</div>
 			<div class="col-md-2 col-sm-4">
 				<div class="box">
-					<img src="${ctxStatic}/images/img-2.jpg" />
-					<div class="box-content">
-						<h3 class="title">抑郁症识别</h3>
-						<span class="post">Depression recognition</span>
-							<ul class="icon">
-								<li><a href="#"><i class="fa fa-search"></i></a></li>
-								<li><a href="#"><i class="fa fa-link"></i></a></li>
-						</ul>
-					</div>
+					<a href="#">
+						<img src="${ctxStatic}/images/img-2.jpg" />
+						<div class="box-content">
+							<h3 class="title">抑郁症识别</h3>
+							<span class="post">Depression recognition</span>
+								<ul class="icon">
+							</ul>
+						</div>
+					</a>
 				</div>
 			</div>
 		</div>

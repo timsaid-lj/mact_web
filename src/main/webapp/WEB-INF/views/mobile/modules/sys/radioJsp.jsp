@@ -23,14 +23,14 @@
 				<div class="lowin-brand">
 					<img src="${ctxStatic}/images/logo-icon.png" alt="logo">
 				</div>
-				<div class="lowin-wrapper">
-					<div class="lowin-box lowin-login">
-						<div class="lowin-box-inner">
+				<div class="lowin-wrapper" style="overflow: hidden; height: 100%;">
+					<div class="lowin-box lowin-login" style="height: 100%;">
+						<div class="lowin-box-inner" style="height: 80%;">
 							<form id="loginForm" action="${ctx}/mact/mobile/save" method="post">
-								<p>MACT-Multimodal Auxiliary Check Toolkit for Depressed Individuals</p>
-								<div class="lowin-group">
+								<p>Health Check ToolkitHealth Check Toolkit</p>
+								<%--<div class="lowin-group">
 									<input type="text" class="lowin-input" name="userName" id="userName" placeholder="请输入姓名/name">
-								</div>
+								</div>--%>
 
 								<div class="lowin-group">
 

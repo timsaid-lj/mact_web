@@ -77,6 +77,7 @@ public class MactMobileController extends BaseController {
         mactUser.setStatus("1");
         mactUserService.save(mactUser);
         addMessage(redirectAttributes, "保存业务表'" + mactUser.getUserName() + "'成功");
+        //获取phq9量表
         MactPhq9 mactPhq9=new MactPhq9();
         mactPhq9.setSort("1");
         model.addAttribute("phq9One",mactPhq9Service.findPhq9One(mactPhq9));

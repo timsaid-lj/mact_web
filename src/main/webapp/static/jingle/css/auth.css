@@ -133,12 +133,12 @@ body {
 .lowin .lowin-box p {
 	color: var(--color-semidark);
 	font-weight: 700;
-	margin-bottom: .9rem;
+	margin-bottom: 1.4rem;
 	text-align: center;
 }
 
 .lowin .lowin-box .lowin-group {
-	margin-bottom: 1.5rem;
+	margin-bottom: 2.5rem;
 }
 
 .lowin .lowin-box label {
