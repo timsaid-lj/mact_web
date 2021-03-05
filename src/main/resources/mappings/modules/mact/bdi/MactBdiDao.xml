@@ -56,7 +56,7 @@
 				ORDER BY ${page.orderBy}
 			</when>
 			<otherwise>
-				ORDER BY a.sort DESC
+				ORDER BY a.bdigroup DESC, a.sort ASC
 			</otherwise>
 		</choose>
 	</select>
@@ -124,5 +124,12 @@
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
 	</update>
+
+	<select id="findBdiOne" resultType="MactBdi">
+		select * from mact_bdi
+		where del_flag = '0'
+		and bdigroup= #{bdigroup}
+		order by sort desc
+	</select>
 	
 </mapper>

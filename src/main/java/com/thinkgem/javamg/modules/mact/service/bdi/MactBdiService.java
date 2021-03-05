@@ -4,7 +4,9 @@
 package com.thinkgem.javamg.modules.mact.service.bdi;
 
 import java.util.List;
+import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +23,9 @@ import com.thinkgem.javamg.modules.mact.dao.bdi.MactBdiDao;
 @Service
 @Transactional(readOnly = true)
 public class MactBdiService extends CrudService<MactBdiDao, MactBdi> {
+
+	@Autowired
+	private MactBdiDao mactBdiDao;
 
 	public MactBdi get(String id) {
 		return super.get(id);
@@ -42,6 +47,12 @@ public class MactBdiService extends CrudService<MactBdiDao, MactBdi> {
 	@Transactional(readOnly = false)
 	public void delete(MactBdi mactBdi) {
 		super.delete(mactBdi);
+	}
+
+
+	public List<Map<String,Object>> findBdiOne(MactBdi mactBdi) {
+		return  mactBdiDao.findBdiOne(mactBdi);
+
 	}
 	
 }

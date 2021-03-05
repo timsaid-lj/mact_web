@@ -5,6 +5,7 @@ package com.thinkgem.javamg.modules.mact.service.phqordbi;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +22,8 @@ import com.thinkgem.javamg.modules.mact.dao.phqordbi.MactPhqordbiDao;
 @Service
 @Transactional(readOnly = true)
 public class MactPhqordbiService extends CrudService<MactPhqordbiDao, MactPhqordbi> {
+	@Autowired
+	private MactPhqordbiDao mactPhqordbiDao;
 
 	public MactPhqordbi get(String id) {
 		return super.get(id);
@@ -43,5 +46,8 @@ public class MactPhqordbiService extends CrudService<MactPhqordbiDao, MactPhqord
 	public void delete(MactPhqordbi mactPhqordbi) {
 		super.delete(mactPhqordbi);
 	}
-	
+
+    public String findPhqOrBdi() {
+		return mactPhqordbiDao.findPhqOrDbi();
+    }
 }

@@ -14,5 +14,6 @@ import com.thinkgem.javamg.modules.mact.entity.phqordbi.MactPhqordbi;
  */
 @MyBatisDao
 public interface MactPhqordbiDao extends CrudDao<MactPhqordbi> {
-	
+
+    String findPhqOrDbi();
 }

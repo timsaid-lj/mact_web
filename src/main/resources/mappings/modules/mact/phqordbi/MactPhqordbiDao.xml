@@ -51,6 +51,14 @@
 			</otherwise>
 		</choose>
 	</select>
+
+	<select id="findPhqOrDbi" resultType="String">
+		SELECT
+		a.phqordbi
+		FROM mact_phqordbi a
+			where
+			a.type = 'phqordbi'
+	</select>
 	
 	<insert id="insert">
 		INSERT INTO mact_phqordbi(

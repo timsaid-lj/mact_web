@@ -4,16 +4,23 @@
 package com.thinkgem.javamg.modules.mact.mobile;
 
 
+import com.thinkgem.javamg.common.persistence.Page;
 import com.thinkgem.javamg.common.utils.IdGen;
 import com.thinkgem.javamg.common.web.BaseController;
 import com.thinkgem.javamg.modules.mact.entity.MactUser;
+import com.thinkgem.javamg.modules.mact.entity.bdi.MactBdi;
 import com.thinkgem.javamg.modules.mact.entity.phq9.MactPhq9;
+import com.thinkgem.javamg.modules.mact.entity.phqordbi.MactPhqordbi;
 import com.thinkgem.javamg.modules.mact.service.MactUserService;
 
+import com.thinkgem.javamg.modules.mact.service.bdi.MactBdiService;
 import com.thinkgem.javamg.modules.mact.service.phq9.MactPhq9Service;
+import com.thinkgem.javamg.modules.mact.service.phqordbi.MactPhqordbiService;
 import com.thinkgem.javamg.modules.mact.service.userphq9.MactUserPhq9Service;
 import com.thinkgem.javamg.modules.sys.service.SystemService;
 
+import org.activiti.explorer.util.StringUtil;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.restlet.resource.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,6 +32,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.print.DocFlavor;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
@@ -33,6 +41,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -45,12 +54,14 @@ import java.util.Map;
 public class MactMobileController extends BaseController {
     @Autowired
     private MactUserService mactUserService;
-    @Autowired
-    private SystemService systemService;
+
     @Autowired
     private MactPhq9Service mactPhq9Service;
+    @Autowired
+    private MactBdiService mactBdiService;
 
-    private ThreadLocalThread threadLocalThread;
+    @Autowired
+    private MactPhqordbiService mactPhqordbiService;
 
     private Map<String,String> map = null;
 
@@ -64,7 +75,6 @@ public class MactMobileController extends BaseController {
 
     @RequestMapping(value = "radioJsp")
     public String sysLogin( HttpServletRequest request, HttpServletResponse response, Model model) {
-
         return "modules/sys/radioJsp";
     }
 
@@ -77,11 +87,24 @@ public class MactMobileController extends BaseController {
         mactUser.setStatus("1");
         mactUserService.save(mactUser);
         addMessage(redirectAttributes, "保存业务表'" + mactUser.getUserName() + "'成功");
-        //获取phq9量表
-        MactPhq9 mactPhq9=new MactPhq9();
-        mactPhq9.setSort("1");
-        model.addAttribute("phq9One",mactPhq9Service.findPhq9One(mactPhq9));
-        return "modules/sys/phqCheck";
+
+        //判断量表
+        String phqOrBdi= mactPhqordbiService.findPhqOrBdi();
+
+        if (phqOrBdi.equals("1")){
+            //获取phq9量表
+            MactPhq9 mactPhq9=new MactPhq9();
+            mactPhq9.setSort("1");
+            model.addAttribute("phq9One",mactPhq9Service.findPhq9One(mactPhq9));
+            return "modules/sys/phqCheck";
+        }else{
+            //获取bdi量表
+            MactBdi mactBdi= new MactBdi();
+            mactBdi.setBdigroup("1");
+            Page<MactBdi> page = mactBdiService.findPage(new Page<MactBdi>(request, response), mactBdi);
+            model.addAttribute("page", page);
+            return "modules/sys/bdiCheck";
+        }
     }
 
     @RequestMapping(value = "mactRadio")
