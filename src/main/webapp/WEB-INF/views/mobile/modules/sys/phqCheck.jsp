@@ -12,6 +12,29 @@
 	<link href="${ctxStatic}/mobiscroll/css/mobiscroll.android-holo-light.css" rel="stylesheet" type="text/css" />
 	<link href="${ctxStatic}/layer-mobile/need/layer.css" rel="stylesheet" type="text/css" />
 
+	<style type="text/css">
+		#contentTable{
+			display: block;
+			list-style: none;
+			margin: 0;
+			padding: 0;
+		}
+		#contentTable li{
+			list-style: none;
+			display: block;
+			width: 100%;
+		}
+		#messageBox{
+			color: red;
+			display: block;
+			text-align: center;
+			font-size: 16px;
+			margin: 0;
+			height: 50px;
+			line-height: 80px;
+			overflow: hidden;
+		}
+	</style>
 
 
 </head>
@@ -44,19 +67,16 @@
 								</p>
 
 
-								<%--<div class="lowin-group">--%>
+								<div class="lowin-input" style="margin-top: 30%; font-size: 16px;font-family: monospace;line-height: 2;" >
+									<label>请根据个人情况进行选择：</label>
+									<label><input name="scores" type="radio" value="0" />没有</label>
+									<label><input name="scores" type="radio" value="1" />有几天</label>
+									<label><input name="scores" type="radio" value="2" />一半以上时间</label>
+									<label><input name="scores" type="radio" value="3" />几乎天天</label>
+								</div>
 
-									<div class="lowin-input" style="margin-top: 30%; font-size: 16px;font-family: monospace;line-height: 2;" >
-										<label>请根据个人情况进行选择：</label>
-										<label><input name="scores" type="radio" value="0" />没有</label>
-										<label><input name="scores" type="radio" value="1" />有几天</label>
-										<label><input name="scores" type="radio" value="2" />一半以上时间</label>
-										<label><input name="scores" type="radio" value="3" />几乎天天</label>
-									</div>
-							<%--	</div>--%>
 
-								<div>&nbsp;</div>
-
+								<h1  id="messageBox"></h1>
 								<input id="nextBtn" class="lowin-btn login-btn " style="margin-top: 20%;" type="button" value="下一题"/>
 							</form>
 						</div>
@@ -82,12 +102,16 @@
 
 <script type="text/javascript">
     $('#nextBtn').click(function () {
+		if($('input:radio[name="scores"]:checked').length===0){
+			$("#messageBox").text("请先作答");
+		}else{
         var sort =  parseInt($("#sort").val()) + parseInt(1);
-        //var sort =  20;
+        var bdigroup =null;
+		var type =  1;
         var CurrentId = $("#CurrentId").val();
         var phq9Id = $("#phq9Id").val();
         var scores= $('input:radio[name="scores"]:checked').val();
-        var url="${ctx}/mact/userphq9/mactUserPhq9/savePhq9?sort="+sort+"&CurrentId="+CurrentId+"&phq9Id="+phq9Id+"&scores="+scores;
+		var url="${ctx}/mact/userphq9/mactUserPhq9/savePhq9?sort="+sort+"&CurrentId="+CurrentId+"&phq9Id="+phq9Id+"&scores="+scores+"&type="+type+"&bdigroup="+bdigroup;
         $.ajax({
             url:url,
             type:"GET",
@@ -96,6 +120,7 @@
 				if(result.data == "" || result.data == null){
 				    window.location.href="${ctx}/mact/mobile/mactRadio?id="+CurrentId;
 				}else{
+					$("#messageBox").text("");
                     $("#phq9Id").val(result.data.id);
                     $("#sort").val(result.data.sort);
                     var phq9ChangeValue= result.data.sort+"."+result.data.project;
@@ -104,6 +129,7 @@
 				}
             }
         });
+		}
     })
 </script>
 

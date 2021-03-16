@@ -11,7 +11,29 @@
 	<link href="${ctxStatic}/mobiscroll/css/mobiscroll.scroller.css" rel="stylesheet" type="text/css" />
 	<link href="${ctxStatic}/mobiscroll/css/mobiscroll.android-holo-light.css" rel="stylesheet" type="text/css" />
 	<link href="${ctxStatic}/layer-mobile/need/layer.css" rel="stylesheet" type="text/css" />
-
+<style type="text/css">
+	#contentTable{
+		display: block;
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+	#contentTable li{
+			list-style: none;
+			display: block;
+			width: 100%;
+	}
+	#messageBox{
+		color: red;
+		display: block;
+		text-align: center;
+		font-size: 16px;
+		margin: 0;
+		height: 50px;
+		line-height: 80px;
+		overflow: hidden;
+	}
+</style>
 
 
 </head>
@@ -26,22 +48,19 @@
 					<div class="lowin-box lowin-login">
 						<div class="lowin-box-inner">
 							<form id="loginForm">
-
+								<input type="hidden" id = "CurrentId" value="${mactUser.id}" hidden="hidden">
 								<div class="lowin-input" style="margin-top: 30%; font-size: 16px;font-family: monospace;line-height: 2;" >
-									<input type="hidden" id = "CurrentId" value="${mactUser.id}" hidden="hidden">
-									<table id="contentTable">
-										<tbody>
-										<c:forEach items="${page.list}" var="mactBdi">
-											<label>
-											<tr>
-												<input name="scores" type="radio" value=${mactBdi.bdivalue}/>&nbsp;${mactBdi.sort}.&nbsp;${mactBdi.project}
-											</tr>
-											</label>
-										</c:forEach>
-										</tbody>
-									</table>
-								</div>
 
+									<ul id="contentTable">
+										<c:forEach items="${page.list}" var="mactBdi">
+											<li>
+												<input name="scores" type="radio" id="${mactBdi.id}" sort="${mactBdi.sort}" value="${mactBdi.bdivalue}" bdigroup="${mactBdi.bdigroup}"/>&nbsp;
+													${mactBdi.sort}.&nbsp;${mactBdi.project}
+											</li>
+										</c:forEach>
+									</ul>
+								</div>
+								<h1  id="messageBox"></h1>
 								<input id="nextBtn" class="lowin-btn login-btn " style="margin-top: 20%;" type="button" value="下一题"/>
 							</form>
 						</div>
@@ -67,12 +86,16 @@
 
 <script type="text/javascript">
 	$('#nextBtn').click(function () {
-		var sort =  parseInt($("#sort").val()) + parseInt(1);
-		//var sort =  20;
+		if($('input:radio[name="scores"]:checked').length===0){
+			$("#messageBox").text("请先作答");
+		}else{
+		var sort =  parseInt($('input:radio[name="scores"]:checked').attr("sort"));
 		var CurrentId = $("#CurrentId").val();
-		var phq9Id = $("#phq9Id").val();
 		var scores= $('input:radio[name="scores"]:checked').val();
-		var url="${ctx}/mact/userphq9/mactUserPhq9/savePhq9?sort="+sort+"&CurrentId="+CurrentId+"&phq9Id="+phq9Id+"&scores="+scores;
+		var phq9Id= $('input:radio[name="scores"]:checked').attr("id");
+		var bdigroup= $('input:radio[name="scores"]:checked').attr("bdigroup");
+		var type =  2;
+		var url="${ctx}/mact/userphq9/mactUserPhq9/savePhq9?sort="+sort+"&CurrentId="+CurrentId+"&phq9Id="+phq9Id+"&scores="+scores+"&type="+type+"&bdigroup="+bdigroup;
 		$.ajax({
 			url:url,
 			type:"GET",
@@ -80,15 +103,26 @@
 			success:function(result){
 				if(result.data == "" || result.data == null){
 					window.location.href="${ctx}/mact/mobile/mactRadio?id="+CurrentId;
-				}else{
-					$("#phq9Id").val(result.data.id);
-					$("#sort").val(result.data.sort);
-					var phq9ChangeValue= result.data.sort+"."+result.data.project;
-					document.getElementById("phq9Change").innerHTML=phq9ChangeValue;
-					$('input:radio[name=scores]').attr('checked',false);
+				}else {
+					var html=''
+					result.data.forEach(item=>{
+						html+='<li>'
+						html+='<input name="scores" type="radio" id="'+item.id+'" sort="'+item.sort+'" value="'+item.bdivalue+'" bdigroup="'+item.bdigroup+'"/>'
+						html+='&nbsp;'+item.sort+'&nbsp;'+item.project
+					html+='</li>'
+					})
+					$("#messageBox").text("");
+					$('#contentTable').html(html)
+
+					// $("#phq9Id").val(result.data.id);
+					// $("#sort").val(result.data.sort);
+					// var phq9ChangeValue= result.data.sort+"."+result.data.project;
+					// document.getElementById("phq9Change").innerHTML=phq9ChangeValue;
+					// $('input:radio[name=scores]').attr('checked',false);
 				}
 			}
 		});
+		}
 	})
 </script>
 

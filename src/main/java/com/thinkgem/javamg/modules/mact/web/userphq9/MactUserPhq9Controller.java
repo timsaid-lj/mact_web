@@ -6,9 +6,12 @@ package com.thinkgem.javamg.modules.mact.web.userphq9;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.thinkgem.javamg.modules.mact.entity.bdi.MactBdi;
 import com.thinkgem.javamg.modules.mact.entity.phq9.MactPhq9;
 import com.thinkgem.javamg.modules.mact.mobile.MactMobileController;
+import com.thinkgem.javamg.modules.mact.service.bdi.MactBdiService;
 import com.thinkgem.javamg.modules.mact.service.phq9.MactPhq9Service;
+import com.thinkgem.javamg.modules.mact.web.bdi.MactBdiController;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,6 +31,7 @@ import com.thinkgem.javamg.modules.mact.entity.userphq9.MactUserPhq9;
 import com.thinkgem.javamg.modules.mact.service.userphq9.MactUserPhq9Service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -45,7 +49,12 @@ public class MactUserPhq9Controller extends BaseController {
 	private MactPhq9Service mactPhq9Service;
 	@Autowired
 	MactMobileController mactMobileController;
-	
+	@Autowired
+	private MactBdiService mactBdiService;
+	@Autowired
+	private MactBdiController mactBdiController;
+
+
 	@ModelAttribute
 	public MactUserPhq9 get(@RequestParam(required=false) String id) {
 		MactUserPhq9 entity = null;
@@ -100,23 +109,28 @@ public class MactUserPhq9Controller extends BaseController {
 	/*@RequiresPermissions("mact:userphq9:mactUserPhq9:edit")*/
 	@RequestMapping(value = "savePhq9")
 	@ResponseBody
-	public Map<String,Object> savePhq9(String CurrentId, String phq9Id, String scores, String sort, Model model) {
+	public Map<String,Object> savePhq9(String CurrentId, String phq9Id, String scores, String sort, String type,String bdigroup,Model model,HttpServletRequest request, HttpServletResponse response) {
 		Map<String,Object> resultMap= new HashMap<String, Object>();
 		MactUserPhq9 mactUserPhq9 = new MactUserPhq9();
 		mactUserPhq9.setPhqid(phq9Id);
 		mactUserPhq9.setUserid(CurrentId);
 		mactUserPhq9.setScores(scores);
-		mactUserPhq9.setType("1");
+		mactUserPhq9.setType(type);
 		mactUserPhq9Service.save(mactUserPhq9);
-		MactPhq9 mactPhq9 = new MactPhq9();
-		mactPhq9.setSort(sort);
-		mactPhq9=mactPhq9Service.findPhq9One(mactPhq9);
-		resultMap.put("data",mactPhq9);
+		if (type.equals("1")){
+			MactPhq9 mactPhq9 = new MactPhq9();
+			mactPhq9.setSort(sort);
+			mactPhq9=mactPhq9Service.findPhq9One(mactPhq9);
+			resultMap.put("data",mactPhq9);
+		}else {
+			MactBdi mactBdi= new MactBdi();
+			mactBdi.setBdigroup(Integer.toString(Integer.parseInt(bdigroup)+1));
+			List<MactBdi> mactBdiList =mactBdiService.findList(mactBdi);
+			resultMap.put("data",mactBdiList);
+			}
 		return resultMap;
 	}
 
-
-	
 	@RequiresPermissions("mact:userphq9:mactUserPhq9:edit")
 	@RequestMapping(value = "delete")
 	public String delete(MactUserPhq9 mactUserPhq9, RedirectAttributes redirectAttributes) {
