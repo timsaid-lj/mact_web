@@ -104,21 +104,17 @@
 				if(result.data == "" || result.data == null){
 					window.location.href="${ctx}/mact/mobile/mactRadio?id="+CurrentId;
 				}else {
+					$("#messageBox").text("");
 					var html=''
 					result.data.forEach(item=>{
 						html+='<li>'
 						html+='<input name="scores" type="radio" id="'+item.id+'" sort="'+item.sort+'" value="'+item.bdivalue+'" bdigroup="'+item.bdigroup+'"/>'
-						html+='&nbsp;'+item.sort+'&nbsp;'+item.project
+						html+='&nbsp;'+item.sort+'.&nbsp;'+item.project
 					html+='</li>'
 					})
-					$("#messageBox").text("");
+
 					$('#contentTable').html(html)
 
-					// $("#phq9Id").val(result.data.id);
-					// $("#sort").val(result.data.sort);
-					// var phq9ChangeValue= result.data.sort+"."+result.data.project;
-					// document.getElementById("phq9Change").innerHTML=phq9ChangeValue;
-					// $('input:radio[name=scores]').attr('checked',false);
 				}
 			}
 		});
